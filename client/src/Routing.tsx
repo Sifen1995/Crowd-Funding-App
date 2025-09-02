@@ -10,6 +10,9 @@ import Signup from './pages/signup/Signup';
 import Payment from './pages/payment/Payment';
 import CreateProject from './pages/CreateProject/CreateProject';
 import Dashboard from './pages/dashboard/dashboard';
+import Project from './pages/project/Project';
+import MyCampaigns from './pages/my campaigns/MyCampaigns';
+import MyContributions from './pages/myContributions/MyContributions';
 
 export default function Routing() {
   return (
@@ -22,7 +25,9 @@ export default function Routing() {
         <Route path='/payment' element={<Payment/>}/>
         <Route path='/create-campaign' element={<CreateProject/>}/>
         <Route path='/dashboard' element={<Dashboard/>}/>
-
+        <Route path='/project' element={<Project/>}/>
+        <Route path='/mycampaigns' element={<MyCampaigns/>}/>
+        <Route path='/mycontributions' element={<MyContributions/>}/>
       </Routes>
     </div>
   );

@@ -9,7 +9,7 @@ import DropdownMenu from '../cards/DropDown';
 // using matching colors, spacing, and component styles.
 export default function Header() {
 
-   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
   return (
     <header className="bg-white text-gray-800 shadow-md py-4">
       <div className="container mx-auto px-4 flex items-center justify-between">

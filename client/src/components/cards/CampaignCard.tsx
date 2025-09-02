@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface Campaign {
   title: string;
@@ -17,6 +18,11 @@ function CampaignCard({ campaign }: CampaignCardProps) {
   const progress = (campaign.raised / campaign.target) * 100;
   const formattedRaised = `$${campaign.raised.toLocaleString()}`;
   const formattedTarget = `$${campaign.target.toLocaleString()}`;
+  const navigate=useNavigate()
+
+  const handelNav=()=>{
+    navigate("/project")
+  }
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
@@ -40,7 +46,7 @@ function CampaignCard({ campaign }: CampaignCardProps) {
         <p className="text-xs text-gray-500">{campaign.country}</p>
       </div>
       <div className="bg-gray-100 p-4">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md w-full text-sm">
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md w-full text-sm" onClick={handelNav}>
           Read More & Donate
         </button>
       </div>

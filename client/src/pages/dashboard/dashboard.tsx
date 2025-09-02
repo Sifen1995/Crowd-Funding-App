@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import UserOverview from '../../components/cards/UserOverview'
 
-// Assuming you have a user object with roles from your context or state
+
 const user = {
   name: 'Jane Doe',
-  roles: ['creator', 'backer'], // User has both roles for this example
+  roles: ['creator', 'backer'], 
 };
 
 const Dashboard = () => {
-  // State to manage the active tab. 'overview' is the default.
+  
   const [activeTab, setActiveTab] = useState('overview');
 
   return (
@@ -57,14 +59,14 @@ const Dashboard = () => {
           )}
         </div>
 
-        {/* Tab Content */}
+       
         <div className="bg-white rounded-b-lg shadow-lg p-6 min-h-[500px]">
           {/* Overview Content */}
           {activeTab === 'overview' && (
             <div>
               <h2 className="text-2xl font-bold text-gray-800 mb-4">Dashboard Overview</h2>
               <p className="text-gray-600">This section provides key statistics and recent activity across your creator and backer roles.</p>
-              {/* Placeholder for overview widgets like charts, recent activities, etc. */}
+             {/* <UserOverview userName={user.name} notifications={[]}/> */}
             </div>
           )}
 
@@ -73,17 +75,67 @@ const Dashboard = () => {
             <div>
               <h2 className="text-2xl font-bold text-gray-800 mb-4">My Campaigns</h2>
               <p className="text-gray-600">Here you can manage your projects, view metrics, and see recent pledges.</p>
-              {/* Placeholder for a list of campaigns, stats, etc. */}
+             
+             <div>
+             
+             <div className='max-w-[900px] p-5 bg-blue-50 border-none rounded-[10px] shadow-md ml-[10%] mr-[10%] mt-6'>
+    <div className='flex justify-between items-center mb-4'>
+        <p className='text-lg font-semibold text-gray-800'>Active Campaigns</p>
+        <p className='text-3xl font-bold text-indigo-600'>3</p>
+    </div>
+
+    <div className='grid grid-cols-2 gap-4 mb-4 text-center'>
+        <div>
+            <p className='text-sm text-gray-600'>Funds Raised</p>
+            <p className='text-lg font-bold text-gray-900'>$5,250</p>
+        </div>
+        <div>
+            <p className='text-sm text-gray-600'>Total Backers</p>
+            <p className='text-lg font-bold text-gray-900'>45</p>
+        </div>
+    </div>
+
+    {/* The new "Days Remaining" info */}
+    <div className='flex justify-center my-4'>
+        <div className='text-center'>
+            <p className='text-sm text-gray-600 mb-1'>Days Remaining for Community Library Project</p>
+            <p className='text-4xl font-extrabold text-indigo-600'>21</p>
+        </div>
+    </div>
+
+    <div className='text-center mt-4'>
+       <Link to={'/mycampaigns'}>View all my campaigns</Link>
+    </div>
+</div>
+
+             </div>
             </div>
-          )}
+          )}   
 
           {/* Backer Content */}
           {activeTab === 'backer' && (
             <div>
               <h2 className="text-2xl font-bold text-gray-800 mb-4">My Contributions</h2>
               <p className="text-gray-600">This page shows all the projects you have contributed to and your total contributions.</p>
-              {/* Placeholder for a list of contributions with amounts, dates, etc. */}
+              
+            <div className='flex flex-row justify-between mt-10 ml-30 mr-30'>
+              <div className='min-w-[300px] h-[200px] p-4 bg-blue-50 shadow-md rounded-[10px]'>
+               <p className='text-[27px] font-bold mb-10'>Total Amount Contributed</p>
+               <p className='text-purple-800 text-center text-[25px] font-bold '>456</p>
+              </div>
+
+              <div>
+                 <div className='min-w-[300px] h-[200px] p-4 bg-blue-50 shadow-md rounded-[10px]'>
+               <p className='text-[27px] font-bold mb-10'>Projects Backed</p>
+               <p className='text-purple-800 text-center text-[25px] font-bold '>456</p>
+              </div>
+              </div>
+
+              
             </div>
+                <p className='text-center text-indigo-600 hover:underline text-[24px] mt-12'><Link to={'/mycontributions'} >view all projects</Link></p>
+            </div>
+            
           )}
         </div>
       </div>
