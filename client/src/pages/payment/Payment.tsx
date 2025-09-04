@@ -1,8 +1,20 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faCreditCard } from '@fortawesome/free-solid-svg-icons';
-import { faFacebookF, faTwitter, faGoogle, faInstagram, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
-import logo from '../../assets/images/logo.png'; // Updated import statement
+import { faCreditCard } from '@fortawesome/free-solid-svg-icons';
+import logo from '../../assets/images/logo.png';
+
+// Import payment method icons
+import applePay from '../../assets/images/apple-pay.png';
+import mastercard from '../../assets/images/card.png';
+import amex from '../../assets/images/american-express-logo.png';
+import visa from '../../assets/images/visa.png';
+import discover from '../../assets/images/discover.png';
+import paypal from '../../assets/images/paypal.png';
+import googlePay from '../../assets/images/google-pay.png';
+
+// Import the reusable Header and Footer components
+import Header from '../../components/header/Header';
+import Footer from '../../components/footer/Footer';
 
 // This is the final Payment component with the correct branding, colors, design, and routing.
 const Payment = () => {
@@ -32,34 +44,8 @@ const Payment = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen font-sans">
-      {/* Header */}
-      <header className="bg-white text-gray-800 shadow-md py-4">
-        <div className="container mx-auto px-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <img src={logo} alt="InnovateFund Logo" className="h-10 w-auto" />
-            <span className="text-xl font-bold">INNOVATE<br />FUND</span>
-          </div>
-          <div className="flex-1 max-w-lg mx-8 hidden md:block">
-            <div className="relative">
-              <FontAwesomeIcon icon={faSearch} className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search projects..."
-                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-full focus:ring-2 focus:ring-[#6A5A82] focus:border-transparent transition-all duration-200"
-              />
-            </div>
-          </div>
-          <nav className="flex items-center space-x-6">
-            {/* The "Home" link now routes to the root path */}
-            <a href="/" className="text-gray-600 hover:text-gray-900 font-medium hidden md:block">Home</a>
-            <a href="#" className="text-gray-600 hover:text-gray-900 font-medium hidden md:block">Create a campaign</a>
-          </nav>
-          {/* The "Log in" button now routes to the /login path */}
-          <a href="/login" className="bg-[#6A5A82] text-white font-semibold py-2 px-6 rounded-full hover:bg-[#584C69] transition-colors duration-200 ml-4">
-            Log in
-          </a>
-        </div>
-      </header>
+      {/* Use the shared Header component */}
+      <Header />
 
       <main className="container mx-auto p-4 md:p-8">
         <div className="text-center py-10">
@@ -176,17 +162,17 @@ const Payment = () => {
             {/* Payment Options */}
             <div className="md:col-span-2 space-y-4">
               <p className="text-gray-600 text-sm">
-                You can make charitable donations to our organization by filling out the form below. We accept debit/credit cards, as well as Paypal.
+                You can make charitable donations to our organization by filling out the form below. We accept debit/credit cards, as well as PayPal.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 {/* Payment Icons */}
-                <img src="https://www.paypalobjects.com/paypal-ui/card-icons/applepay.svg" alt="Apple Pay" className="h-6" />
-                <img src="https://www.paypalobjects.com/paypal-ui/card-icons/mastercard.svg" alt="Mastercard" className="h-6" />
-                <img src="https://www.paypalobjects.com/paypal-ui/card-icons/amex.svg" alt="Amex" className="h-6" />
-                <img src="https://www.paypalobjects.com/paypal-ui/card-icons/visa.svg" alt="Visa" className="h-6" />
-                <img src="https://www.paypalobjects.com/paypal-ui/card-icons/discover.svg" alt="Discover" className="h-6" />
-                <img src="https://www.paypalobjects.com/paypal-ui/card-icons/paypal.svg" alt="PayPal" className="h-6" />
-                <img src="https://www.paypalobjects.com/paypal-ui/card-icons/googlepay.svg" alt="Google Pay" className="h-6" />
+                <img src={applePay} alt="Apple Pay" className="h-6" onError={(e) => (e.currentTarget.src = 'https://www.paypalobjects.com/paypal-ui/card-icons/applepay.svg')} />
+                <img src={mastercard} alt="Mastercard" className="h-6" onError={(e) => (e.currentTarget.src = 'https://www.paypalobjects.com/paypal-ui/card-icons/mastercard.svg')} />
+                <img src={amex} alt="Amex" className="h-6" onError={(e) => (e.currentTarget.src = 'https://www.paypalobjects.com/paypal-ui/card-icons/amex.svg')} />
+                <img src={visa} alt="Visa" className="h-6" onError={(e) => (e.currentTarget.src = 'https://www.paypalobjects.com/paypal-ui/card-icons/visa.svg')} />
+                <img src={discover} alt="Discover" className="h-6" onError={(e) => (e.currentTarget.src = 'https://www.paypalobjects.com/paypal-ui/card-icons/discover.svg')} />
+                <img src={paypal} alt="PayPal" className="h-6" onError={(e) => (e.currentTarget.src = 'https://www.paypalobjects.com/paypal-ui/card-icons/paypal.svg')} />
+                <img src={googlePay} alt="Google Pay" className="h-6" onError={(e) => (e.currentTarget.src = 'https://www.paypalobjects.com/paypal-ui/card-icons/googlepay.svg')} />
               </div>
             </div>
 
@@ -299,67 +285,8 @@ const Payment = () => {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-white text-gray-700 mt-10 shadow-inner">
-        <div className="container mx-auto py-10 px-4 md:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {/* Logo and Tagline */}
-            <div>
-              <img src={logo} alt="InnovateFund Logo" className="h-10 mb-4" />
-              <p className="text-sm">InnovateFund's mission is to empower innovative ideas by providing a collaborative platform for funding and support.</p>
-            </div>
-
-            {/* About Us */}
-            <div className="space-y-2">
-              <h4 className="font-bold text-lg mb-2">ABOUT US</h4>
-              <ul className="space-y-1 text-sm">
-                <li><a href="#" className="hover:underline">About</a></li>
-                <li><a href="#" className="hover:underline">Our Team</a></li>
-                <li><a href="#" className="hover:underline">Contact</a></li>
-                <li><a href="#" className="hover:underline">Partnerships</a></li>
-                <li><a href="#" className="hover:underline">Blog</a></li>
-              </ul>
-            </div>
-            
-            {/* Quick Links */}
-            <div className="space-y-2">
-              <h4 className="font-bold text-lg mb-2">QUICK LINKS</h4>
-              <ul className="space-y-1 text-sm">
-                <li><a href="#" className="hover:underline">Campaigns</a></li>
-                <li><a href="#" className="hover:underline">How it works</a></li>
-                <li><a href="#" className="hover:underline">Pricing</a></li>
-                <li><a href="#" className="hover:underline">FAQ</a></li>
-                <li><a href="#" className="hover:underline">Support</a></li>
-              </ul>
-            </div>
-
-            {/* Follow Us */}
-            <div className="space-y-2">
-              <h4 className="font-bold text-lg mb-2">FOLLOW US</h4>
-              <div className="flex space-x-4">
-                <a href="#" className="text-gray-700 hover:text-gray-900">
-                  <FontAwesomeIcon icon={faFacebookF} />
-                </a>
-                <a href="#" className="text-gray-700 hover:text-gray-900">
-                  <FontAwesomeIcon icon={faTwitter} />
-                </a>
-                <a href="#" className="text-gray-700 hover:text-gray-900">
-                  <FontAwesomeIcon icon={faGoogle} />
-                </a>
-                <a href="#" className="text-gray-700 hover:text-gray-900">
-                  <FontAwesomeIcon icon={faInstagram} />
-                </a>
-                <a href="#" className="text-gray-700 hover:text-gray-900">
-                  <FontAwesomeIcon icon={faLinkedinIn} />
-                </a>
-              </div>
-            </div>
-          </div>
-          <div className="border-t border-gray-200 mt-8 pt-4 text-center text-sm">
-            <p>Copyright © InnovateFund 2023</p>
-          </div>
-        </div>
-      </footer>
+      {/* Use the shared Footer component */}
+      <Footer />
     </div>
   );
 };
