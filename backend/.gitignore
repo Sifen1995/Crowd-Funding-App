@@ -1,58 +1,24 @@
-# Node modules
-node_modules/
-generated
-
-# Environment files (secrets)
-.env
-.env.*.local
-.env.local
-.env.production
-.env.test
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-logs/
 *.log
-
-# Runtime / build output
-dist/
-build/
-coverage/
-.nyc_output/
-
-# Lockfiles (optional: usually committed; remove if you want to keep lockfile)
-# package-lock.json
-# yarn.lock
-# pnpm-lock.yaml
-
-# OS / Editor files
 .DS_Store
+.env
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+/.fleet
+/.idea
+/.nova
+/.phpunit.cache
+/.vscode
+/.zed
+/auth.json
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/vendor
+Homestead.json
+Homestead.yaml
 Thumbs.db
-.vscode/
-.idea/
-
-# Temporary files
-*.tmp
-*.temp
-*.swp
-
-# Database files / local storage (Sequelize or sqlite)
-*.sqlite
-*.sqlite3
-db/*.sqlite
-
-# Uploaded files / user content
-uploads/
-tmp_uploads/
-
-# Testing
-coverage/
-jest.cache
-
-# Misc
-*.tgz
-.cache/
-/generated/prisma
