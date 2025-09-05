@@ -27,7 +27,7 @@ const Dashboard = () => {
             onClick={() => setActiveTab('overview')}
             className={`px-6 py-3 font-semibold text-lg transition-colors duration-200 ${
               activeTab === 'overview'
-                ? 'border-b-2 border-indigo-600 text-indigo-600'
+                ? 'border-b-2 border-[#6A5A82] text-[#6A5A82]'
                 : 'text-gray-600 hover:text-gray-800'
             }`}
           >
@@ -38,7 +38,7 @@ const Dashboard = () => {
               onClick={() => setActiveTab('creator')}
               className={`px-6 py-3 font-semibold text-lg transition-colors duration-200 ${
                 activeTab === 'creator'
-                  ? 'border-b-2 border-indigo-600 text-indigo-600'
+                  ? 'border-b-2 border-[#6A5A82] text-[#6A5A82]'
                   : 'text-gray-600 hover:text-gray-800'
               }`}
             >
@@ -50,7 +50,7 @@ const Dashboard = () => {
               onClick={() => setActiveTab('backer')}
               className={`px-6 py-3 font-semibold text-lg transition-colors duration-200 ${
                 activeTab === 'backer'
-                  ? 'border-b-2 border-indigo-600 text-indigo-600'
+                  ? 'border-b-2 border-[#6A5A82] text-[#6A5A82]'
                   : 'text-gray-600 hover:text-gray-800'
               }`}
             >
@@ -59,14 +59,14 @@ const Dashboard = () => {
           )}
         </div>
 
-       
+        
         <div className="bg-white rounded-b-lg shadow-lg p-6 min-h-[500px]">
           {/* Overview Content */}
           {activeTab === 'overview' && (
             <div>
               <h2 className="text-2xl font-bold text-gray-800 mb-4">Dashboard Overview</h2>
               <p className="text-gray-600">This section provides key statistics and recent activity across your creator and backer roles.</p>
-             {/* <UserOverview userName={user.name} notifications={[]}/> */}
+              {/* <UserOverview userName={user.name} notifications={[]}/> */}
             </div>
           )}
 
@@ -75,42 +75,42 @@ const Dashboard = () => {
             <div>
               <h2 className="text-2xl font-bold text-gray-800 mb-4">My Campaigns</h2>
               <p className="text-gray-600">Here you can manage your projects, view metrics, and see recent pledges.</p>
-             
-             <div>
-             
-             <div className='max-w-[900px] p-5 bg-blue-50 border-none rounded-[10px] shadow-md ml-[10%] mr-[10%] mt-6'>
+              
+              <div>
+              
+              <div className='max-w-[900px] p-5 bg-blue-50 border-none rounded-[10px] shadow-md ml-[10%] mr-[10%] mt-6'>
     <div className='flex justify-between items-center mb-4'>
-        <p className='text-lg font-semibold text-gray-800'>Active Campaigns</p>
-        <p className='text-3xl font-bold text-indigo-600'>3</p>
+      <p className='text-lg font-semibold text-gray-800'>Active Campaigns</p>
+      <p className='text-3xl font-bold text-[#6A5A82]'>3</p>
     </div>
 
     <div className='grid grid-cols-2 gap-4 mb-4 text-center'>
-        <div>
-            <p className='text-sm text-gray-600'>Funds Raised</p>
-            <p className='text-lg font-bold text-gray-900'>$5,250</p>
-        </div>
-        <div>
-            <p className='text-sm text-gray-600'>Total Backers</p>
-            <p className='text-lg font-bold text-gray-900'>45</p>
-        </div>
+      <div>
+        <p className='text-sm text-gray-600'>Funds Raised</p>
+        <p className='text-lg font-bold text-gray-900'>$5,250</p>
+      </div>
+      <div>
+        <p className='text-sm text-gray-600'>Total Backers</p>
+        <p className='text-lg font-bold text-gray-900'>45</p>
+      </div>
     </div>
 
     {/* The new "Days Remaining" info */}
     <div className='flex justify-center my-4'>
-        <div className='text-center'>
-            <p className='text-sm text-gray-600 mb-1'>Days Remaining for Community Library Project</p>
-            <p className='text-4xl font-extrabold text-indigo-600'>21</p>
-        </div>
+      <div className='text-center'>
+        <p className='text-sm text-gray-600 mb-1'>Days Remaining for Community Library Project</p>
+        <p className='text-4xl font-extrabold text-[#6A5A82]'>21</p>
+      </div>
     </div>
 
     <div className='text-center mt-4'>
-       <Link to={'/mycampaigns'}>View all my campaigns</Link>
+      <Link to={'/mycampaigns'}>View all my campaigns</Link>
     </div>
 </div>
 
-             </div>
+              </div>
             </div>
-          )}   
+          )}  
 
           {/* Backer Content */}
           {activeTab === 'backer' && (
@@ -121,19 +121,19 @@ const Dashboard = () => {
             <div className='flex flex-row justify-between mt-10 ml-30 mr-30'>
               <div className='min-w-[300px] h-[200px] p-4 bg-blue-50 shadow-md rounded-[10px]'>
                <p className='text-[27px] font-bold mb-10'>Total Amount Contributed</p>
-               <p className='text-purple-800 text-center text-[25px] font-bold '>456</p>
+               <p className='text-[#6A5A82] text-center text-[25px] font-bold '>456</p>
               </div>
 
               <div>
-                 <div className='min-w-[300px] h-[200px] p-4 bg-blue-50 shadow-md rounded-[10px]'>
+                  <div className='min-w-[300px] h-[200px] p-4 bg-blue-50 shadow-md rounded-[10px]'>
                <p className='text-[27px] font-bold mb-10'>Projects Backed</p>
-               <p className='text-purple-800 text-center text-[25px] font-bold '>456</p>
+               <p className='text-[#6A5A82] text-center text-[25px] font-bold '>456</p>
               </div>
               </div>
 
               
             </div>
-                <p className='text-center text-indigo-600 hover:underline text-[24px] mt-12'><Link to={'/mycontributions'} >view all projects</Link></p>
+              <p className='text-center text-[#6A5A82] hover:underline text-[24px] mt-12'><Link to={'/mycontributions'} >view all projects</Link></p>
             </div>
             
           )}

@@ -80,7 +80,7 @@ const Footer = () => {
 
         {/* Copyright section */}
         <div className="text-center text-sm pt-4">
-          <p>Copyright © Fundly 2023</p>
+          <p>Copyright © Fundly 2025</p>
         </div>
       </div>
     </footer>
