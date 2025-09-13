@@ -4,7 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import logo from '../../assets/images/logo.png'
+import logo from '../../assets/images/logo.png';
+import bg from '../../assets/images/bg.jpg'; // Import your background image
 
 
 // Components
@@ -86,10 +87,22 @@ const VerificationPage = () => {
     setMessage("Login successful!");
   };
 
+  // Define the style for the background image
+  const backgroundStyle = {
+    backgroundImage: `url(${bg})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+  };
+
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50 p-4 font-sans">
+    // Apply the background style to the outermost div
+    <div
+      className="flex justify-center items-center min-h-screen p-4 font-sans"
+      style={backgroundStyle}
+    >
       {message && <SuccessMessage message={message} />}
-      <div className="w-full max-w-lg mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8 space-y-6 max-h-screen overflow-y-scroll relative [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-200 [&::-webkit-scrollbar-thumb]:bg-[#6A5A82] [&::-webkit-scrollbar-thumb]:rounded-full">
+      <div className="w-full max-w-lg mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8 space-y-6 max-h-screen overflow-y-scroll relative bg-opacity-90">
         <div className="flex justify-center mb-6">
           <img src={logo} alt="InnovateFund Logo" className="h-12 w-auto" />
         </div>

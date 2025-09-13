@@ -1,6 +1,6 @@
-import img1 from '../../assets/images/Banner.png';
-import img2 from '../../assets/images/Banner.png';
-import img3 from '../../assets/images/Banner.png';
+import img1 from '../../assets/images/family.jpg';
+import img2 from '../../assets/images/people.jpg';
+import img3 from '../../assets/images/coin.jpg';
 import img4 from '../../assets/images/Banner.png';
 
 
