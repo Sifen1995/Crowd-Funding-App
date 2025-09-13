@@ -1,23 +1,11 @@
+// src/pages/VerificationPage/VerificationPage.tsx
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import logo from '../../assets/images/logo.png'
 
-// Zod Schema
-const PasswordSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z
-    .string()
-    .min(12, "Password must be at least 12 characters")
-    .regex(/[A-Z]/, "Must contain at least one uppercase letter")
-    .regex(/[a-z]/, "Must contain at least one lowercase letter")
-    .regex(/[0-9]/, "Must contain at least one number")
-    .regex(/[^A-Za-z0-9]/, "Must contain at least one symbol"),
-});
-type PasswordForm = z.infer<typeof PasswordSchema>;
 
 // Components
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -61,13 +49,14 @@ const SuccessMessage: React.FC<SuccessMessageProps> = ({ message }) => {
 const VerificationPage = () => {
   const location = useLocation();
   const initialEmail = location.state?.email || '';
+  const [email, setEmail] = useState(initialEmail);
+  const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [message, setMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors } } = useForm<PasswordForm>({
-    resolver: zodResolver(PasswordSchema),
-  });
-  
+
   useEffect(() => {
     if (message) {
       const timer = setTimeout(() => {
@@ -77,8 +66,23 @@ const VerificationPage = () => {
     }
   }, [message]);
 
-  const onLoginSubmit = (data: PasswordForm) => {
-    console.log("Password submitted:", data.password);
+  const onLoginSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setEmailError('');
+    setPasswordError('');
+
+    // Manual validation
+    if (!email) {
+      setEmailError("Email is required.");
+    }
+    if (!password) {
+      setPasswordError("Password is required.");
+    }
+    if (emailError || passwordError) {
+      return;
+    }
+
+    console.log("Login data:", { email, password });
     setMessage("Login successful!");
   };
 
@@ -87,25 +91,31 @@ const VerificationPage = () => {
       {message && <SuccessMessage message={message} />}
       <div className="w-full max-w-lg mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8 space-y-6 max-h-screen overflow-y-scroll relative [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-200 [&::-webkit-scrollbar-thumb]:bg-[#6A5A82] [&::-webkit-scrollbar-thumb]:rounded-full">
         <div className="flex justify-center mb-6">
-          <img src="../../images/logo.png" alt="InnovateFund Logo" className="h-12 w-auto" />
+          <img src={logo} alt="InnovateFund Logo" className="h-12 w-auto" />
         </div>
         <h1 className="text-4xl font-semibold text-gray-900 mb-6">Sign in</h1>
-        <form onSubmit={handleSubmit(onLoginSubmit)} className="space-y-4">
+        <form onSubmit={onLoginSubmit} className="space-y-4">
           <div>
-            <Input placeholder="Email Address" defaultValue={initialEmail} {...register("email")} />
+            <Input
+              placeholder="Email Address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
           </div>
           <div className="relative">
             <Input
               type={showPassword ? 'text' : 'password'}
               placeholder="Password"
-              {...register("password")}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <FontAwesomeIcon
               icon={showPassword ? faEyeSlash : faEye}
               className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer"
               onClick={() => setShowPassword(!showPassword)}
             />
-            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+            {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
           </div>
           <a href="#" className="block text-sm text-[#6A5A82] font-medium hover:underline mb-4">
             Forgot your password?
