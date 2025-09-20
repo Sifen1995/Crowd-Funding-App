@@ -1,14 +1,11 @@
 // src/pages/Login/Login.tsx
-
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { LoginSchema, type LoginForm } from './../../schemas/LoginSchema.ts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle, faApple } from '@fortawesome/free-brands-svg-icons';
 import { faCheckCircle, faTimes } from '@fortawesome/free-solid-svg-icons';
-import logo from '../../assets/images/logo.png'
+import logo from '../../assets/images/logo.png';
+import bg from '../../assets/images/bg.jpg'; // Import your background image
 
 // Define a type for the Button component's props
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -52,11 +49,10 @@ const SuccessMessage: React.FC<SuccessMessageProps> = ({ message }) => {
 };
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>({
-    resolver: zodResolver(LoginSchema),
-  });
 
   // Automatically hide the success message after 3 seconds
   useEffect(() => {
@@ -68,21 +64,45 @@ const Login = () => {
     }
   }, [message]);
 
-  const onEmailSubmit = (data: LoginForm) => {
-    console.log("Email submitted:", data.email);
-    // Navigate to the verification page
-    navigate('/login/verify');
+  const onEmailSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setEmailError('');
+
+    // Manual validation
+    if (!email) {
+      setEmailError("Email is required.");
+      return;
+    }
+    // Basic email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setEmailError("Invalid email address.");
+      return;
+    }
+
+    console.log("Email submitted:", email);
+    // Navigate to the verification page, passing the email as state
+    navigate('/login/verify', { state: { email } });
+  };
+
+  // Define the style for the background image
+  const backgroundStyle = {
+    backgroundImage: `url(${bg})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50 p-4">
-      {/* Conditionally render the success message */}
+    // Apply the background style to the outermost div
+    <div
+      className="flex justify-center items-center min-h-screen p-4"
+      style={backgroundStyle}
+    >
       {message && <SuccessMessage message={message} />}
 
       <div
-        className="w-full max-w-lg mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8 space-y-6 max-h-screen overflow-y-scroll relative
-        [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-200 [&::-webkit-scrollbar-thumb]:bg-[#6A5A82] [&::-webkit-scrollbar-thumb]:rounded-full
-        "
+        className="w-full max-w-lg mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8 space-y-6 max-h-screen overflow-y-scroll relative bg-opacity-90"
       >
         <Link
           to="/"
@@ -124,12 +144,16 @@ const Login = () => {
           <hr className="flex-grow border-gray-300" />
         </div>
 
-        <form onSubmit={handleSubmit(onEmailSubmit)} className="space-y-4">
+        <form onSubmit={onEmailSubmit} className="space-y-4">
           <div>
-            <Input placeholder="Email Address" {...register("email")} />
-            {errors.email && (
+            <Input
+              placeholder="Email Address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            {emailError && (
               <p className="text-red-500 text-sm mt-1">
-                {errors.email.message}
+                {emailError}
               </p>
             )}
           </div>

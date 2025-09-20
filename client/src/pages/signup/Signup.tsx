@@ -1,13 +1,11 @@
-// src/pages/signup/Signup.tsx
-
+// src/pages/Signup/Signup.tsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { SignupSchema, type SignupForm } from '../../schemas/SignupSchema.ts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faCheckCircle, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import logo from '../../assets/images/logo.png'
+import logo from '../../assets/images/logo.png';
+import bg from '../../assets/images/bg.jpg'; // Import your background image
+
 
 // Define a type for the Button component's props
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -51,13 +49,23 @@ const SuccessMessage: React.FC<SuccessMessageProps> = ({ message }) => {
 };
 
 const Signup = () => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [termsAccepted, setTermsAccepted] = useState(false);
+
+  const [firstNameError, setFirstNameError] = useState('');
+  const [lastNameError, setLastNameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [termsError, setTermsError] = useState('');
+
   const [message, setMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  const { register, handleSubmit, formState: { errors } = {} } = useForm<SignupForm>({
-    resolver: zodResolver(SignupSchema),
-  });
 
   // Automatically hide the success message after 3 seconds
   useEffect(() => {
@@ -69,20 +77,93 @@ const Signup = () => {
     }
   }, [message]);
 
-  const onSubmit = (data: SignupForm) => {
-    console.log("Signup data:", data);
-    setMessage("Signup successful!");
+  const validateForm = () => {
+    let isValid = true;
+
+    setFirstNameError('');
+    setLastNameError('');
+    setEmailError('');
+    setPasswordError('');
+    setConfirmPasswordError('');
+    setTermsError('');
+
+    if (!firstName) {
+      setFirstNameError("First name is required.");
+      isValid = false;
+    }
+
+    if (!lastName) {
+      setLastNameError("Last name is required.");
+      isValid = false;
+    }
+
+    if (!email) {
+      setEmailError("Email is required.");
+      isValid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setEmailError("Invalid email address.");
+      isValid = false;
+    }
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/;
+    if (!password) {
+      setPasswordError("Password is required.");
+      isValid = false;
+    } else if (password.length < 12) {
+      setPasswordError("Password must be at least 12 characters.");
+      isValid = false;
+    } else if (!passwordRegex.test(password)) {
+      setPasswordError("Password must contain at least one uppercase letter, one lowercase letter, one number, and one symbol.");
+      isValid = false;
+    }
+
+    if (!confirmPassword) {
+      setConfirmPasswordError("Please confirm your password.");
+      isValid = false;
+    } else if (password !== confirmPassword) {
+      setConfirmPasswordError("Passwords do not match.");
+      isValid = false;
+    }
+
+    if (!termsAccepted) {
+      setTermsError("You must accept the terms and privacy policy.");
+      isValid = false;
+    }
+
+    return isValid;
+  };
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (validateForm()) {
+      console.log("Signup data:", {
+        firstName,
+        lastName,
+        email,
+        password,
+      });
+      setMessage("Signup successful!");
+    }
+  };
+
+  // Define the style for the background image
+  const backgroundStyle = {
+    backgroundImage: `url(${bg})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50 p-4">
-      {/* Conditionally render the success message */}
+    // Apply the background style to the outermost div
+    <div
+      className="flex justify-center items-center min-h-screen p-4"
+      style={backgroundStyle}
+    >
       {message && <SuccessMessage message={message} />}
-
       <div
-        className="relative w-full max-w-lg mx-auto bg-white rounded-2xl shadow-2xl p-6 sm:p-8 max-h-screen overflow-y-scroll
-        [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-200 [&::-webkit-scrollbar-thumb]:bg-[#6A5A82] [&::-webkit-scrollbar-thumb]:rounded-full
-        "
+        className="relative w-full max-w-lg mx-auto bg-white rounded-2xl shadow-2xl p-6 sm:p-8 max-h-screen overflow-y-scroll bg-opacity-90"
       >
         <Link
           to="/login"
@@ -107,55 +188,69 @@ const Signup = () => {
             Sign in
           </Link>
         </div>
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
+        <form onSubmit={onSubmit} className="mt-8 space-y-6">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
-              <Input placeholder="First Name" {...register("firstName")} />
-              {errors?.firstName && (
-                <p className="text-red-500 text-sm mt-1">{errors.firstName.message}</p>
+              <Input
+                placeholder="First Name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+              {firstNameError && (
+                <p className="text-red-500 text-sm mt-1">{firstNameError}</p>
               )}
             </div>
             <div className="flex-1">
-              <Input placeholder="Last Name" {...register("lastName")} />
-              {errors?.lastName && (
-                <p className="text-red-500 text-sm mt-1">{errors.lastName.message}</p>
+              <Input
+                placeholder="Last Name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+              {lastNameError && (
+                <p className="text-red-500 text-sm mt-1">{lastNameError}</p>
               )}
             </div>
           </div>
           <div>
-            <Input placeholder="Email Address" {...register("email")} />
-            {errors?.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+            <Input
+              placeholder="Email Address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            {emailError && (
+              <p className="text-red-500 text-sm mt-1">{emailError}</p>
             )}
           </div>
           <div className="relative">
             <Input
               type={showPassword ? 'text' : 'password'}
               placeholder="Password"
-              {...register("password")}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <FontAwesomeIcon
               icon={showPassword ? faEyeSlash : faEye}
               className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer"
               onClick={() => setShowPassword(!showPassword)}
             />
-            {errors?.password && (
-              <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+            {passwordError && (
+              <p className="text-red-500 text-sm mt-1">{passwordError}</p>
             )}
           </div>
           <div className="relative">
             <Input
               type={showConfirmPassword ? 'text' : 'password'}
               placeholder="Confirm Password"
-              {...register("confirmPassword")}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
             />
             <FontAwesomeIcon
               icon={showConfirmPassword ? faEyeSlash : faEye}
               className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             />
-            {errors?.confirmPassword && (
-              <p className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</p>
+            {confirmPasswordError && (
+              <p className="text-red-500 text-sm mt-1">{confirmPasswordError}</p>
             )}
           </div>
           <div className="bg-purple-100 p-4 rounded-xl text-gray-700 space-y-2">
@@ -171,7 +266,8 @@ const Signup = () => {
           <div className="flex items-start gap-2 text-sm text-gray-600">
             <input
               type="checkbox"
-              {...register("terms")}
+              checked={termsAccepted}
+              onChange={(e) => setTermsAccepted(e.target.checked)}
               className="mt-1"
             />
             <label>
@@ -185,8 +281,8 @@ const Signup = () => {
               </a>.
             </label>
           </div>
-          {errors?.terms && (
-            <p className="text-red-500 text-sm mt-1">{errors.terms.message}</p>
+          {termsError && (
+            <p className="text-red-500 text-sm mt-1">{termsError}</p>
           )}
           <Button
             type="submit"
